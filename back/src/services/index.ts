@@ -133,9 +133,9 @@ class Services {
             return null;
         }
     }
-    async getAllMarket(page: number, idol_id: number, idol_name: string) {
+    async getAllMarket(page: number, idol_name: string) {
         try {
-            const query = await marketRepository.getAll(page, idol_id, idol_name);
+            const query = await marketRepository.getAll(page, idol_name);
             return query;
                 
         } catch (err) {

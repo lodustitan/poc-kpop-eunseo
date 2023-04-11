@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import { useState, useEffect, useContext } from "react";
+import { useCookies } from "react-cookie";
 
 import Button from "react-bootstrap/Button"
 import Badge from 'react-bootstrap/Badge';
@@ -12,6 +13,7 @@ import { GlobalVars } from "../App";
 export default function Market()
 {
 
+    const [cookies, setCookie, removeCookie] = useCookies(['usertoken']);
     const globalVars = useContext(GlobalVars);
     const [searchInput, setSearchInput] = useState();
 
@@ -19,14 +21,14 @@ export default function Market()
 
     function searchIdol(){
         if(searchInput !== "") {
-            let filter;
-            if(isNaN(searchInput)) filter = "idol_name";
-            else filter = "idol_id";
-
-            const url = `http://localhost:4000/market?${filter}=${searchInput}`;
 
             axios
-                .get(url)
+                .post("http://localhost:4000/market/search", { 
+                    searchString: searchInput,
+                    category: 0,
+                    orderBy: 0,
+                    page: 1
+                 }, {headers: { headers: {authorization: `Bearer ${cookies.token}`} }})
                 .then((res)=> {
                     console.log(res.data);
                     setSearch(res.data.result);
@@ -35,12 +37,15 @@ export default function Market()
     }
     useEffect(()=>{
         axios
-            .post("http://localhost:4000/auth", {}, {headers: {account_name: globalVars.accountName}})
-            .then(el => {
-                globalVars.setAccountName(el.data.account_name);
-                globalVars.setNickname(el.data.nickname);
-                globalVars.setDiamonds(el.data.diamonds);
-                globalVars.setPeanuts(el.data.peanuts);
+            .post("http://localhost:4000/market/search", { 
+                searchString: searchInput,
+                category: 0,
+                orderBy: 0,
+                page: 1
+                }, { headers: {authorization: `Bearer ${cookies.token}`} })
+            .then((res)=> {
+                console.log(res.data);
+                setSearch(res.data.result);
             });
     }, [])
 

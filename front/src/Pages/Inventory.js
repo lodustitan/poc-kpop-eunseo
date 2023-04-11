@@ -61,14 +61,18 @@ export default function Home()
 
 
                     <div className="home_newsChangelogsItem">
-                        {inventory && inventory.map( (el,i) =><IdolPreview 
-                            key={el.i}
-                            idol_id={el.idol_id}
-                            image_url={el.image_url}
-                            name={el.name}
-                            rarity={el.rarity}
-                            type={el.type}
-                        />)}
+                        {inventory && inventory.map( (el,i) => {
+                            console.log(el);
+                            return (<IdolPreview 
+                                key={el.i}
+                                idol_id={el.id}
+                                image_url={el.image_url}
+                                name={el.name}
+                                rarity={el.rarity}
+                                type={el.type}
+                            />)
+                        })
+                        }
                     </div>
                 </div>
             </div>

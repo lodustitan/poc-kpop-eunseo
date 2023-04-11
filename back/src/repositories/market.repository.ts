@@ -1,24 +1,26 @@
 import prisma from "../database/database";
 
-async function getAll (page: number, idol_id: number, idol_name: string) {
+async function getAll (page: number, idol_name: string) {
     try {
         let query;
-        if(idol_id){
+        if(idol_name){
             query = await prisma.market.findMany({
-                where: {idol_id},
                 include:{
                     idols: true
                 },
                 skip: (page-1)*10,
                 take: 10,
+                where: {
+                    idols: { name: idol_name }
+                }
             })
-        }else if(idol_name){
+        } else {
             query = await prisma.market.findMany({
                 include:{
                     idols: true
                 },
                 skip: (page-1)*10,
-                take: 10,
+                take: 10
             })
         }
         return {status: true, result: query};

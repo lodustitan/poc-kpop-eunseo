@@ -20,6 +20,18 @@ const Schemas = {
     }),
     sessionTokenSchema: Joi.object({
         token: Joi.string().required()
+    }),
+    marketSearchSchema: Joi.object({
+        searchString: Joi.string(),
+        category: Joi.number().min(0).max(7).required(),
+        orderBy: Joi.number().min(0).max(2).required(),
+        page: Joi.number().default(1).required()
+    }),
+    marketSellIdolSchema: Joi.object({
+        idolId: Joi.number().required()
+    }),
+    marketBuyIdolSchema: Joi.object({
+        marketId: Joi.number().required()
     })
 };
 

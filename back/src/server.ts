@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 
 import authRoute from "./routes/auth.route";
 import userRoute from "./routes/user.route";
+import marketRoute from "./routes/market.route"
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/auth", authRoute);
 app.use("/user", userRoute);
+app.use("/market", marketRoute);
 
 const PORT = process.env.PORT; 
 

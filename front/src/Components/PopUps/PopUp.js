@@ -1,13 +1,18 @@
+import { useState } from "react";
 import styled from "styled-components";
 
-const PopUp = ({children, title, confirm, close}) => {
+const PopUp = ({children, title, input, confirm, close}) => {
+    
+    const [inputValue, setInput] = useState();
+
     return (
         <Background>
             <Popup>
                 <Title>{title}</Title>
                 <Conteudo>{children}</Conteudo>
                 <Panel>
-                    {confirm && <Confirm onClick={(e) => confirm(e)}>Confirm</Confirm>}
+                    { input && <input type="number" placeholder="digite aqui..." value={inputValue} onChange={e => setInput(e.target.value)} /> }
+                    { confirm && <Confirm onClick={(e) => confirm(e)}>Confirm</Confirm> }
                     <Close onClick={(e) => close(e)}>Close</Close>
                 </Panel>
             </Popup>

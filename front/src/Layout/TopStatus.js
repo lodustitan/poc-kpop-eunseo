@@ -37,6 +37,9 @@ export default function TopStatus()
                     globalVars.setDiamonds(el.data.diamonds);
                     globalVars.setPeanuts(el.data.peanuts);
                 })
+                .catch(()=>{
+                    navigate("/authentication")
+                })
         }
     }, [])
 

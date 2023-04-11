@@ -127,13 +127,15 @@ class Tools  {
 class Market {
     async getMarket(req: Request, res: Response){
         try {
-            const { data } = res.locals;
+            const { user } = res.locals;
+            const { body } = req;
         
-            const page: number = Number(data.page || 1);
-            const idol_id: number = Number(data.idol_id || 0);
-            const idol_name: string = String(data.idol_name || "");
+            const page: number = Number(body.page || 1);
+            const idol_name: string = String(body.idol_name || "");
             
-            const result = await services.getAllMarket(page, idol_id, idol_name);
+            const result = await services.getAllMarket(page, idol_name);
+            
+            console.log(result);
             
             return res.status(StatusCodes.OK).send(result);
             
@@ -145,8 +147,8 @@ class Market {
     async buyIdolMarket(req: Request, res: Response){
 
         const { data } = res.locals;
-        const id = req.params.id;
-        const idNumber: number = Number(id);
+        const { marketId } = req.body;
+        const idNumber: number = Number(marketId);
 
         try {
             if(isNaN(idNumber)) throw new Error("ID not is a Number");
@@ -167,8 +169,8 @@ class Market {
     async addIdolMarket(req: Request, res: Response){
 
         const { data } = res.locals;
-        const id = req.params.id;
-        const idNumber: number = Number(id);
+        const { idolId } = req.body;
+        const idNumber: number = Number(idolId);
 
         try {
             if(isNaN(idNumber)) throw new Error("ID not is a Number");
